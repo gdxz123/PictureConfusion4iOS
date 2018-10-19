@@ -2,11 +2,10 @@
 
 # originPath must no be null
 originPath=$1
+cd $originPath
 if [ ! -n "$originPath" ];then
 	echo "\033[31m\033[01myou must input picture resource path!!!\033[0m"
 	exit
-else
-	echo "the picture resource path is $originPath"
 fi
 
 
@@ -21,22 +20,22 @@ mkdir $newPath
 cd $originPath
 
 files='*'
-echo "files->$files"
 fileArray=($files)
 
-# copy picture resource
+# copy files
 for fileName in ${fileArray[@]}
 do
-	# echo $file
+	# copy picture resource
 	if [ "${fileName##*.}" = "png" ] || [ "${fileName##*.}" = "PNG" ]  || [ "${fileName##*.}" = "jpg" ] || [ "${fileName##*.}" = "JPG" ] 
 	then
 		imageNumber=$[$imageNumber+1];
 		cat $fileName > "../$newPath/$preString$fileName"
 	fi
 
-	if [ "${fileName##*.}" = "json" ]
+	# copy Contents.json
+	if [ "$fileName" = "Contents.json" ]
 	then
 		echo "change Content.json"
 	fi
 done
-echo "total ImageNumber: $imageNumber"
+# echo "total ImageNumber: $imageNumber"
