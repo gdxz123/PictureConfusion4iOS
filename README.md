@@ -1,5 +1,5 @@
 # PictureConfusion4iOS
-  make picture resource confusion for iOS APP when you need to make spam app
+  confuse picture resource for iOS APP when you need to make spam app
 
 # TODO List
   1. folder recursive call
