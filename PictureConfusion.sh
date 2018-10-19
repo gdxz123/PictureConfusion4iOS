@@ -2,12 +2,12 @@
 
 # originPath must no be null
 originPath=$1
-cd $originPath
 if [ ! -n "$originPath" ];then
 	echo "\033[31m\033[01myou must input picture resource path!!!\033[0m"
 	exit
 fi
 
+cd $originPath
 
 imageNumber=0
 # echo total number : ${#fileArray[@]}
@@ -22,20 +22,27 @@ cd $originPath
 files='*'
 fileArray=($files)
 
+imageArray=()
+
 # copy files
 for fileName in ${fileArray[@]}
 do
 	# copy picture resource
 	if [ "${fileName##*.}" = "png" ] || [ "${fileName##*.}" = "PNG" ]  || [ "${fileName##*.}" = "jpg" ] || [ "${fileName##*.}" = "JPG" ] 
 	then
-		imageNumber=$[$imageNumber+1];
 		cat $fileName > "../$newPath/$preString$fileName"
+		imageArray[imageNumber]=$fileName
+		imageNumber=$[$imageNumber+1];
 	fi
 
 	# copy Contents.json
 	if [ "$fileName" = "Contents.json" ]
 	then
-		echo "change Content.json"
+		cat $fileName > "../$newPath/$fileName"
+		for imageName in ${imageArray[@]}
+		do
+			sed "s/$imageName/$preString$imageName/g" $fileName > ../$newPath/$fileName
+		done
 	fi
 done
 # echo "total ImageNumber: $imageNumber"
