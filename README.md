@@ -4,9 +4,11 @@
 # TODO List
   1. folder recursive call
   2. picture MD5 modification
-  3. Content.json modification
-  4. add path paramter
-  5. build new result
+  
+# Usage
+  1. open the Terminal
+  2. change into script folder
+  3. sh PictureConfusion.sh [wantConfusePictureFolder]
 
 # Contribution
   gdxz123
