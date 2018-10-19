@@ -41,8 +41,7 @@ do
 		cat $fileName > "../$newPath/$fileName"
 		for imageName in ${imageArray[@]}
 		do
-			sed "s/$imageName/$preString$imageName/g" $fileName > ../$newPath/$fileName
+			sed -i "" "s/$imageName/$preString$imageName/g" "../$newPath/$fileName"
 		done
 	fi
 done
-# echo "total ImageNumber: $imageNumber"
