@@ -12,7 +12,7 @@
   3. sh pictureConfusion.sh [wantConfusePictureFolder]
 
 # Contribution
-  kenwong91
+  gdxz123
 
 # License
   PictureConfusion4iOS is available under the MIT license. See the LICENSE file for more info.
