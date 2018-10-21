@@ -12,6 +12,7 @@ preString="pre_"
 newPath="confuseResult"
 propertyName="Contents.json"
 
+# change the shell separator to fix bug when filename has whitespace happend
 MY_SAVEIFS=$IFS
 #IFS=$(echo -en "\n\b")
 IFS=$'\n'
@@ -50,7 +51,7 @@ function recursiveCheckFiles() {
 			fi
 			recursiveCheckFiles $1/$fileName $2/$fileName
 		else
-			echo "333$fileName"
+			echo "unknow file $fileName"
 		fi
 
 	done
