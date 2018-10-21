@@ -9,7 +9,10 @@
 # Usage
   1. open the Terminal
   2. change into script folder
-  3. sh pictureConfusion.sh [wantConfusePictureFolder]
+  3. run pictureConfusion.sh script
+  ```Bash Shell
+  sh pictureConfusion.sh [wantConfusePictureFolder]
+  ```
 
 # Contribution
   gdxz123
