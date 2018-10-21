@@ -9,39 +9,71 @@ fi
 
 cd $originPath
 
-imageNumber=0
-# echo total number : ${#fileArray[@]}
+
+# setting
 preString="pre_"
 newPath="confuseResult"
+propertyName="Contents.json"
 
 # new result file path and cd into origin path
 cd ..
 mkdir $newPath
 cd $originPath
 
-files='*'
-fileArray=($files)
+checkFiles() {
+	currentPath=$1
+	files='*'
+	fileArray=($files)
 
-imageArray=()
+	imageNumber=0
+	imageArray=()
 
-# copy files
-for fileName in ${fileArray[@]}
-do
-	# copy picture resource
-	if [ "${fileName##*.}" = "png" ] || [ "${fileName##*.}" = "PNG" ]  || [ "${fileName##*.}" = "jpg" ] || [ "${fileName##*.}" = "JPG" ] 
+	# copy files
+	for fileName in ${fileArray[@]}
+	do
+		# copy picture resource
+		if [ "${fileName##*.}" = "png" ] || [ "${fileName##*.}" = "PNG" ]  || [ "${fileName##*.}" = "jpg" ] || [ "${fileName##*.}" = "JPG" ] 
+		then
+			cat $fileName > "../$newPath/$preString$fileName"
+			imageArray[imageNumber]=$fileName
+			imageNumber=$[$imageNumber+1]
+			echo $imageNumber
+		fi
+
+		# copy Contents.json
+		if [ "$fileName" = "$propertyName" ]
+		then
+			# echo $imageNumber
+			cat $fileName > "../$newPath/$propertyName"
+		fi
+	done
+
+	if [ -f "../$newPath/$propertyName" ]
 	then
-		cat $fileName > "../$newPath/$preString$fileName"
-		imageArray[imageNumber]=$fileName
-		imageNumber=$[$imageNumber+1];
-	fi
-
-	# copy Contents.json
-	if [ "$fileName" = "Contents.json" ]
-	then
-		cat $fileName > "../$newPath/$fileName"
 		for imageName in ${imageArray[@]}
 		do
-			sed -i "" "s/$imageName/$preString$imageName/g" "../$newPath/$fileName"
+			sed -i "" "s/$imageName/$preString$imageName/g" "../$newPath/$propertyName"
 		done
 	fi
-done
+	
+}
+
+checkFiles ${originPath}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
