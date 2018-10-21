@@ -13,60 +13,55 @@ newPath="confuseResult"
 propertyName="Contents.json"
 
 function recursiveCheckFiles() {
-	sourcePath=$1
-	targetPath=$2
-
+	
 	imageNumber=0
 	imageArray=()
 
-	fileArray=$(ls $sourcePath)
+	fileArray=$(ls $1)
 
 	# copy files
 	for fileName in ${fileArray[*]}
 	do
 		# copy file resource
-		if [ -f $sourcePath/$fileName ]; then
+		if [ -f $1/$fileName ]; then
 			if [ "${fileName##*.}" = "png" ] || [ "${fileName##*.}" = "PNG" ]  || [ "${fileName##*.}" = "jpg" ] || [ "${fileName##*.}" = "JPG" ]; then
-				if [ ! -f $targetPath/$preString$fileName ]; then
-					echo "111$fileName"
-					cp $sourcePath/$fileName $targetPath/$preString$fileName
+				if [ ! -f $2/$preString$fileName ]; then
+					cp $1/$fileName $2/$preString$fileName
 					imageArray[imageNumber]=$fileName
 					imageNumber=$[$imageNumber+1]
 				fi
 			# copy Contents.json
 			elif [ $fileName = $propertyName ]; then
-				echo "222$fileName"
-				if [ ! -f $targetPath/$fileName ]; then
-					cat $sourcePath/$fileName > $targetPath/$propertyName
+				if [ ! -f $2/$fileName ]; then
+					cat $1/$fileName > $2/$propertyName
 				fi
 			else
-				if [ ! -f $targetPath/$fileName ]; then
-					cp $sourcePath/$fileName $targetPath/$fileName
+				if [ ! -f $2/$fileName ]; then
+					cp $1/$fileName $2/$fileName
 				fi
 			fi
 		# copy Folder rescource
-		elif [ -d $sourcePath/$fileName ]; then
-			echo "333$fileName"
-			if [ ! -d $targetPath/$fileName ]; then
-				mkdir -p $targetPath/$fileName
+		elif [ -d $1/$fileName ]; then
+			if [ ! -d $2/$fileName ]; then
+				mkdir -p $2/$fileName
 			fi
-			recursiveCheckFiles $sourcePath/$fileName $targetPath/$fileName
+			recursiveCheckFiles $1/$fileName $2/$fileName
 		fi
 	done
 
 	# Change Contents.json content
-	if [ -f $targetPath/$propertyName ]; then
+	if [ -f $2/$propertyName ]; then
 		# if Contents.json is image property json
-		if cat $targetPath/$propertyName | grep "\"images\"">/dev/null; then
+		if cat $2/$propertyName | grep "\"images\"">/dev/null; then
 			for imageName in ${imageArray[@]}
 			do
-				sed -i "" "s/\"$imageName\"/\"$preString$imageName\"/g" "$targetPath/$propertyName"
+				sed -i "" "s/\"$imageName\"/\"$preString$imageName\"/g" "$2/$propertyName"
 			done
 		fi
 	fi
 }
 
-dest_dir="/Users/gdzqw/Documents/Project/Github/PictureConfusion4iOS/PictureConfusion4iOS/result"
+dest_dir="$originPath/../confusionResult"
 recursiveCheckFiles $originPath $dest_dir
 
 
