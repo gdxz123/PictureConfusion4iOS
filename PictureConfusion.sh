@@ -2,73 +2,66 @@
 
 # originPath must no be null
 originPath=$1
-if [ ! -n "$originPath" ];then
+if [ ! -n "$originPath" ]; then
 	echo "\033[31m\033[01myou must input picture resource path!!!\033[0m"
 	exit
 fi
-
-cd $originPath
-
 
 # setting
 preString="pre_"
 newPath="confuseResult"
 propertyName="Contents.json"
 
-# new result file path and cd into origin path
-cd ..
-mkdir $newPath
-cd $originPath
-
-checkFiles() {
-	currentPath=$1
-	files='*'
-	fileArray=($files)
+function recursiveCheckFiles() {
+	sourcePath=$1
+	targetPath=$2
+	fileArray=$(ls $sourcePath)
 
 	imageNumber=0
 	imageArray=()
 
 	# copy files
-	for fileName in ${fileArray[@]}
+	for fileName in ${fileArray[*]}
 	do
-		# copy picture resource
-		if [ "${fileName##*.}" = "png" ] || [ "${fileName##*.}" = "PNG" ]  || [ "${fileName##*.}" = "jpg" ] || [ "${fileName##*.}" = "JPG" ] 
-		then
-			cat $fileName > "../$newPath/$preString$fileName"
-			imageArray[imageNumber]=$fileName
-			imageNumber=$[$imageNumber+1]
-		fi
-
-		# copy Contents.json
-		if [ "$fileName" = "$propertyName" ]
-		then
-			# echo $imageNumber
-			cat $fileName > "../$newPath/$propertyName"
-		fi
-
-		# copy Folder
-		if [ -d $fileName ]
-		then
-			mkdir "../$newPath/$fileName"
+		# copy file resource
+		if [ -f $sourcePath/$fileName ]; then
+			if [ "${fileName##*.}" = "png" ] || [ "${fileName##*.}" = "PNG" ]  || [ "${fileName##*.}" = "jpg" ] || [ "${fileName##*.}" = "JPG" ]; then
+				cat $fileName > "$targetPath/$preString$fileName"
+				imageArray[imageNumber]=$fileName
+				imageNumber=$[$imageNumber+1]
+			# copy Contents.json
+			elif [ "$fileName" = "$propertyName" ]; then
+				if [ ! -f $targetPath/$fileName ]; then
+					cat $sourcePath/$fileName > $targetPath/$propertyName
+				fi
+			else
+				if [ ! -f $targetPath/$fileName ]; then
+					cp $sourcePath/$fileName $targetPath/$fileName
+				fi
+			fi
+		# copy Folder rescource
+		elif [ -d $sourcePath/$fileName ]; then
+			echo $sourcePath/$fileName
+			if [ ! -d $targetPath/$fileName ]; then
+				mkdir -p $targetPath/$fileName
+			fi
+			recursiveCheckFiles $sourcePath/$fileName $targetPath/$fileName
 		fi
 	done
 
 	# Change Contents.json content
-	if [ -f "../$newPath/$propertyName" ]
-	then
+	if [ -f "$targetPath/$propertyName" ]; then
 		# if Contents.json is image property json
-		if cat "../$newPath/$propertyName" | grep "images">/dev/null
-		then
+		if cat "$targetPath/$propertyName" | grep "images">/dev/null; then
 			for imageName in ${imageArray[@]}
 			do
-				sed -i "" "s/$imageName/$preString$imageName/g" "../$newPath/$propertyName"
+				sed -i "" "s/\"$imageName\"/\"$preString$imageName\"/g" "$targetPath/$propertyName"
 			done
 		fi
 	fi
-	
 }
 
-checkFiles ${originPath}
+recursiveCheckFiles $originPath $originPath/../$newPath
 
 
 
