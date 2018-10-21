@@ -2,8 +2,7 @@
   confuse picture resource for iOS APP when you need to make spam app
 
 # TODO List
-  1. folder recursive call
-  2. picture MD5 modification
+  1. picture MD5 modification
   
 # Usage
   1. open the Terminal
