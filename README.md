@@ -1,10 +1,10 @@
 # PictureConfusion4iOS
   confuse picture resource for iOS APP when you need to make spam app
-  1. add prefix-name to all the picture resource and update Contents.json automatically.
-  2. change all picture's MD5 to confuse picture resource without distortion.
+  - add prefix-name to all the picture resource and update Contents.json automatically.
+  - change all picture's MD5 to confuse picture resource without distortion.
 
 # TODO List
-  1. picture MD5 modification
+  - picture MD5 modification
   
 # Usage
   1. open the Terminal
