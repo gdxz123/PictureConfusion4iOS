@@ -9,10 +9,10 @@
 # Usage
   1. open the Terminal
   2. change into script folder
-  3. sh PictureConfusion.sh [wantConfusePictureFolder]
+  3. sh pictureConfusion.sh [wantConfusePictureFolder]
 
 # Contribution
-  gdxz123
+  kenwong91
 
 # License
   PictureConfusion4iOS is available under the MIT license. See the LICENSE file for more info.
