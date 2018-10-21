@@ -11,7 +11,7 @@
   2. change into script folder
   3. run pictureConfusion.sh script
   ```Bash Shell
-  sh pictureConfusion.sh [wantConfusePictureFolder]
+  sh PictureConfusion.sh [wantConfusePictureFolder]
   ```
 
 # Contribution
