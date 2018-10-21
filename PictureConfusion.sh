@@ -15,10 +15,11 @@ propertyName="Contents.json"
 function recursiveCheckFiles() {
 	sourcePath=$1
 	targetPath=$2
-	fileArray=$(ls $sourcePath)
 
 	imageNumber=0
 	imageArray=()
+
+	fileArray=$(ls $sourcePath)
 
 	# copy files
 	for fileName in ${fileArray[*]}
@@ -26,11 +27,15 @@ function recursiveCheckFiles() {
 		# copy file resource
 		if [ -f $sourcePath/$fileName ]; then
 			if [ "${fileName##*.}" = "png" ] || [ "${fileName##*.}" = "PNG" ]  || [ "${fileName##*.}" = "jpg" ] || [ "${fileName##*.}" = "JPG" ]; then
-				cat $fileName > "$targetPath/$preString$fileName"
-				imageArray[imageNumber]=$fileName
-				imageNumber=$[$imageNumber+1]
+				if [ ! -f $targetPath/$preString$fileName ]; then
+					echo "111$fileName"
+					cp $sourcePath/$fileName $targetPath/$preString$fileName
+					imageArray[imageNumber]=$fileName
+					imageNumber=$[$imageNumber+1]
+				fi
 			# copy Contents.json
-			elif [ "$fileName" = "$propertyName" ]; then
+			elif [ $fileName = $propertyName ]; then
+				echo "222$fileName"
 				if [ ! -f $targetPath/$fileName ]; then
 					cat $sourcePath/$fileName > $targetPath/$propertyName
 				fi
@@ -41,7 +46,7 @@ function recursiveCheckFiles() {
 			fi
 		# copy Folder rescource
 		elif [ -d $sourcePath/$fileName ]; then
-			echo $sourcePath/$fileName
+			echo "333$fileName"
 			if [ ! -d $targetPath/$fileName ]; then
 				mkdir -p $targetPath/$fileName
 			fi
@@ -50,9 +55,9 @@ function recursiveCheckFiles() {
 	done
 
 	# Change Contents.json content
-	if [ -f "$targetPath/$propertyName" ]; then
+	if [ -f $targetPath/$propertyName ]; then
 		# if Contents.json is image property json
-		if cat "$targetPath/$propertyName" | grep "images">/dev/null; then
+		if cat $targetPath/$propertyName | grep "\"images\"">/dev/null; then
 			for imageName in ${imageArray[@]}
 			do
 				sed -i "" "s/\"$imageName\"/\"$preString$imageName\"/g" "$targetPath/$propertyName"
@@ -61,7 +66,8 @@ function recursiveCheckFiles() {
 	fi
 }
 
-recursiveCheckFiles $originPath $originPath/../$newPath
+dest_dir="/Users/gdzqw/Documents/Project/Github/PictureConfusion4iOS/PictureConfusion4iOS/result"
+recursiveCheckFiles $originPath $dest_dir
 
 
 
