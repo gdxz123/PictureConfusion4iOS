@@ -12,13 +12,16 @@ preString="pre_"
 newPath="confuseResult"
 propertyName="Contents.json"
 
+MY_SAVEIFS=$IFS
+#IFS=$(echo -en "\n\b")
+IFS=$'\n'
+
 function recursiveCheckFiles() {
-	
+
 	imageNumber=0
 	imageArray=()
 
 	fileArray=$(ls $1)
-
 	# copy files
 	for fileName in ${fileArray[*]}
 	do
@@ -46,7 +49,10 @@ function recursiveCheckFiles() {
 				mkdir -p $2/$fileName
 			fi
 			recursiveCheckFiles $1/$fileName $2/$fileName
+		else
+			echo "333$fileName"
 		fi
+
 	done
 
 	# Change Contents.json content
@@ -63,21 +69,3 @@ function recursiveCheckFiles() {
 
 dest_dir="$originPath/../confusionResult"
 recursiveCheckFiles $originPath $dest_dir
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
