@@ -37,7 +37,6 @@ checkFiles() {
 			cat $fileName > "../$newPath/$preString$fileName"
 			imageArray[imageNumber]=$fileName
 			imageNumber=$[$imageNumber+1]
-			echo $imageNumber
 		fi
 
 		# copy Contents.json
@@ -46,14 +45,25 @@ checkFiles() {
 			# echo $imageNumber
 			cat $fileName > "../$newPath/$propertyName"
 		fi
+
+		# copy Folder
+		if [ -d $fileName ]
+		then
+			mkdir "../$newPath/$fileName"
+		fi
 	done
 
+	# Change Contents.json content
 	if [ -f "../$newPath/$propertyName" ]
 	then
-		for imageName in ${imageArray[@]}
-		do
-			sed -i "" "s/$imageName/$preString$imageName/g" "../$newPath/$propertyName"
-		done
+		# if Contents.json is image property json
+		if cat "../$newPath/$propertyName" | grep "images">/dev/null
+		then
+			for imageName in ${imageArray[@]}
+			do
+				sed -i "" "s/$imageName/$preString$imageName/g" "../$newPath/$propertyName"
+			done
+		fi
 	fi
 	
 }
