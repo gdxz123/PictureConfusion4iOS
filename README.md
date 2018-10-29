@@ -15,7 +15,7 @@
   sh PictureConfusion.sh [wantConfusePictureFolder]
   ```
 # Tools
-####ImageMagick
+**ImageMagick**
 
 Convert is powerful and convenient for enlarging, shrinking, clipping, rotating, merging, watermarking, splicing and format conversion of batch images, especially suitable for background image processing.
 
