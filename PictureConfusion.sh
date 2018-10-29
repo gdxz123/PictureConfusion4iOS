@@ -12,6 +12,8 @@ preString="pre_"
 newPath="confuseResult"
 propertyName="Contents.json"
 
+quality=85
+
 # change the shell separator to fix bug when filename has whitespace happend
 MY_SAVEIFS=$IFS
 #IFS=$(echo -en "\n\b")
@@ -32,6 +34,8 @@ function recursiveCheckFiles() {
 				if [ ! -f $2/$preString$fileName ]; then
 					cp $1/$fileName $2/$preString$fileName
 					imageArray[imageNumber]=$fileName
+                    $(convert $2/$preString$fileName -quality "$quality" -colorspace sRGB $2/$preString$fileName)
+
 					imageNumber=$[$imageNumber+1]
 				fi
 			# copy Contents.json
