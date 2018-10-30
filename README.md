@@ -5,14 +5,21 @@
 
 # TODO List
   - picture MD5 modification
-  
+
 # Usage
-  1. open the Terminal
-  2. change into script folder
-  3. run pictureConfusion.sh script
+    1. open the Terminal
+    2. brew install imagemagick
+    3. change into script folder
+    4. run pictureConfusion.sh script
   ```Bash Shell
   sh PictureConfusion.sh [wantConfusePictureFolder]
   ```
+# Tools
+**ImageMagick**
+
+Convert is powerful and convenient for enlarging, shrinking, clipping, rotating, merging, watermarking, splicing and format conversion of batch images, especially suitable for background image processing.
+
+Description： (<http://www.imagemagick.org/script/command-line-options.php>)
 
 # Contribution
   gdxz123
