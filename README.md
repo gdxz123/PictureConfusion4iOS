@@ -23,6 +23,7 @@ Description： (<http://www.imagemagick.org/script/command-line-options.php>)
 
 # Contribution
   gdxz123
+  CoderCJFeng
 
 # License
   PictureConfusion4iOS is available under the MIT license. See the LICENSE file for more info.
